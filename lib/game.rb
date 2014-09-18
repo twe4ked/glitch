@@ -9,7 +9,7 @@ module Glitch
 
       @types = {}
       [
-        Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20),
+        Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20, :description => 'a boring little atom, so lonely'),
         Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
         Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
         Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
@@ -131,7 +131,8 @@ module Glitch
         print_line_break
         available_types.each do |type|
           Curses.addstr '- '
-          print_glitch_string type.info_string
+          print_glitch_string type.info_string, 1, false
+          print_glitch_string " - #{type.description}"
         end
       end
     end

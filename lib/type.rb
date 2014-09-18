@@ -8,6 +8,7 @@ module Glitch
       @multiplier = options[:multiplier]
       @count_available = options[:count_available] || :infinite
       @price_calc = options[:price_calc]
+      @description = options[:description]
       @count = 0
     end
 
@@ -56,6 +57,10 @@ module Glitch
       string << "(#{@count}/#{total_available})" if @count > 0
       string << "*#{@multiplier}"
       string.join ' '
+    end
+
+    def description
+      @description || '??'
     end
 
     private
