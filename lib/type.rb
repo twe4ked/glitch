@@ -6,9 +6,9 @@ module Glitch
       @name = name
       @initial_price = options[:initial_price]
       @multiplier = options[:multiplier]
-      @count = 0
       @count_available = options[:count_available] || :infinite
       @price_calc = options[:price_calc]
+      @count = 0
     end
 
     def shortcut
