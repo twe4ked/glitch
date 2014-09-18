@@ -13,7 +13,7 @@ module Glitch
         Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
         Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
         Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
-        Glitch::Type.new('board', initial_price: 500, multiplier: 0, count_available: 4),
+        Glitch::Type.new('board', initial_price: 500, multiplier: 0, count_available: 4, price_calc: -> (type) { [type.initial_price * (type.count + 1), 2000].min }),
         Glitch::Type.new('clock', initial_price: 1337, multiplier: 0, count_available: 1, price_calc: -> (type) { type.initial_price }),
       ].each { |type| @types[type.shortcut] = type }
 
