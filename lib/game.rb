@@ -61,7 +61,7 @@ module Glitch
             type.increment
             @bit_multiplier = @bit_multiplier + type.multiplier
             add_message "1 #{type.name}"
-          when type.count > 0
+          else
             add_message "you've not enough bits for #{type.name}"
           end
         else
@@ -139,7 +139,7 @@ module Glitch
 
     def available_types
       @types.values.select do |type|
-        @player.can_decrement_bits_by?(type.price) || type.count > 0
+        @player.can_decrement_bits_by?(type.price - type.price/100.0*10) || type.count > 0
       end
     end
 
