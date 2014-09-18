@@ -9,12 +9,12 @@ module Glitch
 
       @types = {}
       [
-        Glitch::Type.new('atom', 10, 1, 20),
-        Glitch::Type.new('uber', 100, 10),
-        Glitch::Type.new('matrix', 150, 11),
-        Glitch::Type.new('hundo', 99999, 100),
-        Glitch::Type.new('board', 500, 0, 4),
-        Glitch::Type.new('clock', 1337, 0, 1, -> (type) { type.initial_price }),
+        Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20),
+        Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
+        Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
+        Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
+        Glitch::Type.new('board', initial_price: 500, multiplier: 0, count_available: 4),
+        Glitch::Type.new('clock', initial_price: 1337, multiplier: 0, count_available: 1, price_calc: -> (type) { type.initial_price }),
       ].each { |type| @types[type.shortcut] = type }
 
       @message_board_length = 30

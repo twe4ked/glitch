@@ -2,13 +2,13 @@ module Glitch
   class Type
     attr_reader :name, :multiplier, :count, :initial_price
 
-    def initialize(name, initial_price, multiplier, count_available = :infinite, price_calc = nil)
+    def initialize(name, options = {})
       @name = name
-      @initial_price = initial_price
-      @multiplier = multiplier
+      @initial_price = options[:initial_price]
+      @multiplier = options[:multiplier]
       @count = 0
-      @count_available = count_available
-      @price_calc = price_calc
+      @count_available = options[:count_available] || :infinite
+      @price_calc = options[:price_calc]
     end
 
     def shortcut
