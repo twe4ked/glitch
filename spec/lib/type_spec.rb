@@ -1,7 +1,7 @@
 require_relative '../../lib/type.rb'
 
 describe Glitch::Type do
-  let(:type) { Glitch::Type.new 'foo', 10, 1 }
+  let(:type) { Glitch::Type.new 'foo', initial_price: 10, multiplier: 1 }
 
   describe '#shortcut' do
     it 'returns a single letter shortcut' do
@@ -39,7 +39,7 @@ describe Glitch::Type do
     end
 
     it 'allows adding a lambda to change the price' do
-      type = Glitch::Type.new 'foo', 40, 1, :infinite, -> (type) { type.initial_price + 2 }
+      type = Glitch::Type.new 'foo', initial_price: 40, multiplier: 1, price_calc: -> (type) { type.initial_price + 2 }
       expect(type.price).to eq 42
 
       type.instance_variable_set('@count', 1)
