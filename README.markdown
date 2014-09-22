@@ -7,10 +7,8 @@ A terminal based [Cookie Clicker] style game.
 ### Installing and Running
 
 ```
-git clone git@github.com:twe4ked/glitch.git
-cd glitch
-bundle install
-bundle exec ./bin/glitch
+gem install glitch-game
+glitch
 ```
 
 [Cookie Clicker]: http://en.wikipedia.org/wiki/Cookie_Clicker
