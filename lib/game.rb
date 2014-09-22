@@ -36,6 +36,7 @@ module Glitch
 
       Curses.curs_set 0
       Curses.timeout = 1000
+      Curses.start_color
 
       loop do
         tick
@@ -130,9 +131,17 @@ module Glitch
       unless available_types.empty?
         print_line_break
         available_types.each do |type|
-          Curses.addstr '- '
-          print_glitch_string type.info_string, 1, false
-          print_glitch_string " - #{type.description}"
+          print_type_info = -> (*args) {
+            Curses.addstr '- '
+            print_glitch_string type.info_string, 1, false
+            print_glitch_string " - #{type.description}"
+          }
+
+          if @player.can_decrement_bits_by?(type.price) && type.available?
+            print_type_info.call
+          else
+            Curses.attron(Curses.color_pair(8)|Curses::A_BOLD, &print_type_info)
+          end
         end
       end
     end
