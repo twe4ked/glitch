@@ -53,14 +53,30 @@ module Glitch
     def info_string
       string = []
       string << name_with_shortcut
-      string << "[#{price} bits]"
-      string << "(#{@count}/#{total_available})" if @count > 0
-      string << "*#{@multiplier}"
+      string << price_display
+      string << count_display
+      string << multiplier_display
       string.join ' '
     end
 
     def description
       @description || '??'
+    end
+
+    def price_display
+      "[#{price} bits]"
+    end
+
+    def count_display
+      if @count > 0
+        "(#{@count}/#{total_available})"
+      else
+        ''
+      end
+    end
+
+    def multiplier_display
+      "*#{@multiplier}"
     end
 
     private
