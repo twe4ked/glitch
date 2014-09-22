@@ -1,7 +1,7 @@
 module Glitch
   class GlitchString
     # http://en.wikipedia.org/wiki/Combining_Diacritical_Marks
-    COMBINING_DIACRITICAL_MARKS = ("\u0300".."\u036F").to_a
+    COMBINING_DIACRITICAL_MARKS = ("\u0300".."\u036F").to_a - ["\u034f"]
 
     def glitch(string, amount = 1, random = false, index_offset = 0)
       result = string.chars.map.each_with_index do |char, index|
