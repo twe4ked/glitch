@@ -2,6 +2,8 @@
 
 A terminal based [Cookie Clicker] style game.
 
+[![Build Status](https://travis-ci.org/twe4ked/glitch.svg?branch=master)](https://travis-ci.org/twe4ked/glitch)
+
 ### Installing and Running
 
 ```
