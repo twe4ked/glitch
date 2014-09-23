@@ -7,15 +7,15 @@ module Glitch
       @bit_multiplier = 0
       @last_second = 0
 
-      @types = {}
-      [
+      types = [
         Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20, :description => 'a boring little atom, so lonely'),
         Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
         Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
         Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
         Glitch::Type.new('board', initial_price: 500, multiplier: 0, count_available: 4, price_calc: -> (type) { [type.initial_price * (type.count + 1), 2000].min }),
         Glitch::Type.new('clock', initial_price: 1337, multiplier: 0, count_available: 1, price_calc: -> (type) { type.initial_price }),
-      ].each { |type| @types[type.shortcut] = type }
+      ].inject({}) { |types,type| types[type.shortcut] = type; types }
+      @type_container = Glitch::TypeContainer.new types
 
       @message_board_length = 30
       @messages = [
@@ -52,7 +52,7 @@ module Glitch
           @player.increment_bits
           add_message '1 bit'
         when available_types.map(&:shortcut).include?(input)
-          type = @types[input]
+          type = @type_container.types[input]
 
           case
           when !type.available?
@@ -89,7 +89,7 @@ module Glitch
       print_glitch_string 'glitch!', 5
       print_line_break
 
-      if @types['c'].count == 1
+      if @type_container.types['c'].count == 1
         print_glitch_string 'clock: ', 1, false
         print_glitch_string Time.now.to_s
       end
@@ -147,13 +147,13 @@ module Glitch
     end
 
     def available_types
-      @types.values.select do |type|
+      @type_container.types.values.select do |type|
         @player.can_decrement_bits_by?(type.price - type.price/100.0*10) || type.count > 0
       end
     end
 
     def message_board_length
-      @message_board_length + 10 * (@types['b'].count + 1)
+      @message_board_length + 10 * (@type_container.types['b'].count + 1)
     end
 
     def print_glitch_string(string, amount = 1, line_break = true, random = false)
