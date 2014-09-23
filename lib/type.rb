@@ -1,6 +1,7 @@
 module Glitch
   class Type
     attr_reader :name, :multiplier, :count, :initial_price
+    attr_accessor :container
 
     def initialize(name, options = {})
       @name = name
@@ -52,10 +53,15 @@ module Glitch
 
     def info_string
       string = []
-      string << name_with_shortcut
-      string << price_display
-      string << count_display
-      string << multiplier_display
+      %i[
+        name_with_shortcut
+        price_display
+        count_display
+        multiplier_display
+      ].each do |method|
+        max_length = max_string_length(types.map(&method))
+        string << format_string_pad(max_length) % send(method)
+      end
       string.join ' '
     end
 
@@ -80,6 +86,18 @@ module Glitch
     end
 
     private
+
+    def types
+      @container && @container.types.values || []
+    end
+
+    def format_string_pad(length)
+      "%-#{length}.#{length}s"
+    end
+
+    def max_string_length(strings)
+      strings.inject(0) { |l, s| s.length > l && l = s.length; l }
+    end
 
     def infinite?
       @count_available == :infinite

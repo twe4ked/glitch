@@ -3,7 +3,10 @@ module Glitch
     attr_reader :types
 
     def initialize(types)
-      @types = types
+      @types = Hash[types.map do |shortcut, type|
+        type.container = self
+        [shortcut, type]
+      end]
     end
   end
 end
