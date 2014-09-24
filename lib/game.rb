@@ -4,11 +4,11 @@ require 'pstore'
 module Glitch
   class Game
     def initialize
-      @player = Glitch::Player.new data.transaction { data['bits'] }
-      @multiplier = data.transaction { data['multiplier'] } || 0
+      @player = Glitch::Player.new data.transaction { data[:bits] }
+      @multiplier = data.transaction { data[:multiplier] } || 0
       @last_second = 0
 
-      types = data.transaction { data['types'] } || [
+      types = data.transaction { data[:types] } || [
         Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20, :description => 'a boring little atom, so lonely'),
         Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
         Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
@@ -179,9 +179,9 @@ module Glitch
 
     def save_data
       data.transaction do
-        data['bits'] = @player.bits
-        data['multiplier'] = @multiplier
-        data['types'] = @type_container.types.values
+        data[:bits] = @player.bits
+        data[:multiplier] = @multiplier
+        data[:types] = @type_container.types.values
       end
     end
   end
