@@ -1,20 +1,22 @@
 require 'curses'
+require 'pstore'
 
 module Glitch
   class Game
     def initialize
-      @player = Glitch::Player.new
-      @bit_multiplier = 0
+      @player = Glitch::Player.new data.transaction { data['bits'] }
+      @bit_multiplier = data.transaction { data['bit_multiplier'] } || 0
       @last_second = 0
 
-      @type_container = Glitch::TypeContainer.new([
+      types = data.transaction { data['types'] } || [
         Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20, :description => 'a boring little atom, so lonely'),
         Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
         Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
         Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
         Glitch::BoardType.new,
         Glitch::ClockType.new,
-      ])
+      ]
+      @type_container = Glitch::TypeContainer.new(types)
 
       @message_board_length = 30
       @messages = [
@@ -31,6 +33,11 @@ module Glitch
     end
 
     def run
+      trap('SIGINT') {
+        save_data
+        exit
+      }
+
       draw_screen
 
       Curses.curs_set 0
@@ -73,6 +80,7 @@ module Glitch
       this_second = Time.now.to_i
       if this_second > @last_second
         @player.increment_bits 1 * @bit_multiplier
+        save_data
         @last_second = this_second
       end
 
@@ -163,6 +171,18 @@ module Glitch
 
     def print_line_break
       Curses.addstr "\n"
+    end
+
+    def data
+      @data ||= PStore.new File.expand_path('~/.glitch-game')
+    end
+
+    def save_data
+      data.transaction do
+        data['bits'] = @player.bits
+        data['bit_multiplier'] = @bit_multiplier
+        data['types'] = @type_container.types.values
+      end
     end
   end
 end

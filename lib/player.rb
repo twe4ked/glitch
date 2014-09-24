@@ -2,8 +2,8 @@ module Glitch
   class Player
     attr_reader :bits
 
-    def initialize
-      @bits = 0
+    def initialize(bits = nil)
+      @bits = bits || 0
     end
 
     def increment_bits(number = 1)
