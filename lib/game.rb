@@ -7,7 +7,7 @@ module Glitch
 
     def initialize
       @player = Glitch::Player.new data.transaction { data[:bits] }
-      @multiplier = data.transaction { data[:multiplier] } || 0
+      @multiplier = data.transaction { data.fetch :multiplier, 0 }
       @last_second = 0
 
       types = data.transaction { data[:types] } || [
