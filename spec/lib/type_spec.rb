@@ -1,4 +1,4 @@
-require_relative '../../lib/type.rb'
+require_relative '../../lib/type'
 
 describe Glitch::Type do
   let(:type) { Glitch::Type.new 'foo', initial_price: 10, multiplier: 1 }

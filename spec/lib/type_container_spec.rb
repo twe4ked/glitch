@@ -1,5 +1,5 @@
-require_relative '../../lib/type.rb'
-require_relative '../../lib/type_container.rb'
+require_relative '../../lib/type'
+require_relative '../../lib/type_container'
 
 describe Glitch::TypeContainer do
   let(:type_foo) { Glitch::Type.new 'foo', initial_price: 10, multiplier: 1 }

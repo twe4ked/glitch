@@ -1,4 +1,4 @@
-require_relative '../../lib/player.rb'
+require_relative '../../lib/player'
 
 describe Glitch::Player do
   let(:player) { Glitch::Player.new }
