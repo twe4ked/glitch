@@ -3,6 +3,8 @@ require 'pstore'
 
 module Glitch
   class Game
+    DATA_FILE = File.expand_path('~/.glitch-game')
+
     def initialize
       @player = Glitch::Player.new data.transaction { data[:bits] }
       @multiplier = data.transaction { data[:multiplier] } || 0
@@ -174,7 +176,7 @@ module Glitch
     end
 
     def data
-      @data ||= PStore.new File.expand_path('~/.glitch-game')
+      @data ||= PStore.new DATA_FILE
     end
 
     def save_data
