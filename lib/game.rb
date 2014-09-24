@@ -10,15 +10,7 @@ module Glitch
       @multiplier = data.transaction { data.fetch :multiplier, 0 }
       @last_second = 0
 
-      types = data.transaction { data[:types] } || [
-        Glitch::Type.new('atom', initial_price: 10, multiplier: 1, count_available: 20, :description => 'a boring little atom, so lonely'),
-        Glitch::Type.new('uber', initial_price: 100, multiplier: 10),
-        Glitch::Type.new('matrix', initial_price: 150, multiplier: 11),
-        Glitch::Type.new('hundo', initial_price: 99999, multiplier: 100),
-        Glitch::BoardType.new,
-        Glitch::ClockType.new,
-      ]
-      @type_container = Glitch::TypeContainer.new(types)
+      @type_container = Glitch::TypeContainer.new data
 
       @message_board_length = 30
       @messages = [

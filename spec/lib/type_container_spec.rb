@@ -4,7 +4,8 @@ require_relative '../../lib/type_container'
 describe Glitch::TypeContainer do
   let(:type_foo) { Glitch::Type.new 'foo', initial_price: 10, multiplier: 1 }
   let(:type_bar) { Glitch::Type.new 'bar', initial_price: 10, multiplier: 1 }
-  let(:container) { Glitch::TypeContainer.new [type_foo, type_bar] }
+  let(:data) { double transaction: [type_foo, type_bar] }
+  let(:container) { Glitch::TypeContainer.new data }
 
   describe '#types' do
     it 'sets the container of every type' do
