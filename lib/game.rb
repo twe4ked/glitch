@@ -5,7 +5,7 @@ module Glitch
   class Game
     def initialize
       @player = Glitch::Player.new data.transaction { data['bits'] }
-      @bit_multiplier = data.transaction { data['bit_multiplier'] } || 0
+      @multiplier = data.transaction { data['multiplier'] } || 0
       @last_second = 0
 
       types = data.transaction { data['types'] } || [
@@ -66,7 +66,7 @@ module Glitch
           when @player.can_decrement_bits_by?(type.price)
             @player.decrement_bits type.price
             type.increment
-            @bit_multiplier = @bit_multiplier + type.multiplier
+            @multiplier = @multiplier + type.multiplier
             add_message "1 #{type.name}"
           else
             add_message "you've not enough bits for #{type.name}"
@@ -79,7 +79,7 @@ module Glitch
       # only once per second
       this_second = Time.now.to_i
       if this_second > @last_second
-        @player.increment_bits 1 * @bit_multiplier
+        @player.increment_bits 1 * @multiplier
         save_data
         @last_second = this_second
       end
@@ -104,7 +104,7 @@ module Glitch
       @one_bit = true if !@one_bit && @player.bits > 0
       if @one_bit
         print_glitch_string 'bits: ', 1, false
-        print_glitch_string @player.bits.to_s + (@bit_multiplier > 5 ? " (#{@bit_multiplier}/bps)" : '')
+        print_glitch_string @player.bits.to_s + (@multiplier > 5 ? " (#{@multiplier}/bps)" : '')
         print_line_break
       end
 
@@ -180,7 +180,7 @@ module Glitch
     def save_data
       data.transaction do
         data['bits'] = @player.bits
-        data['bit_multiplier'] = @bit_multiplier
+        data['multiplier'] = @multiplier
         data['types'] = @type_container.types.values
       end
     end
