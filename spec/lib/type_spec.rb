@@ -37,17 +37,6 @@ describe Glitch::Type do
       type.instance_variable_set('@count', 100)
       expect(type.price).to eq 10100
     end
-
-    it 'allows adding a lambda to change the price' do
-      type = Glitch::Type.new 'foo', initial_price: 40, multiplier: 1, price_calc: -> (type) { type.initial_price + 2 }
-      expect(type.price).to eq 42
-
-      type.instance_variable_set('@count', 1)
-      expect(type.price).to eq 42
-
-      type.instance_variable_set('@count', 2)
-      expect(type.price).to eq 42
-    end
   end
 
   describe '#increment' do
