@@ -9,9 +9,7 @@ module Glitch
       @player = Glitch::Player.new data.transaction { data[:bits] }
       @multiplier = data.transaction { data.fetch :multiplier, 0 }
       @last_second = 0
-
       @type_container = Glitch::TypeContainer.new data
-
       @message_board_length = 30
       @messages = [
         'welcome to glitch',
